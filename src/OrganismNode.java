@@ -75,6 +75,7 @@ public class OrganismNode {
         } else if (getMiddle() == null) {
             if (!Objects.equals(left.getName(), preyNode.getName())){
                 middle = preyNode;
+                System.out.println("1");
             }
             else{
                 throw new IllegalArgumentException("Prey Already Exists");

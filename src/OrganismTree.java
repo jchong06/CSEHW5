@@ -35,7 +35,7 @@ class OrganismTree {
             result += cursor.getMiddle().getName() + " ";
         }
         if (cursor.getRight() != null) {
-            result += cursor.getMiddle().getName() + " ";
+            result += cursor.getRight().getName() + " ";
         }
         return result.trim();
     }
