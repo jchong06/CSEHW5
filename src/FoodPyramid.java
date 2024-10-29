@@ -38,11 +38,11 @@ public class FoodPyramid {
                 if (tree.getCursor().getRight() != null){
                     System.out.println("ERROR: There is no more room for more prey for this predator.");
                 }
-                else if (!(tree.getCursor().isHerbivore())){
-                    System.out.println("ERROR: This prey cannot be added as it does not match the diet of the predator.");
-                }
                 else if (tree.getCursor().isPlant()){
                     System.out.println("ERROR: The cursor is at a plant node. Plants cannot be predators.");
+                }
+                else if (!(tree.getCursor().isHerbivore())){
+                    System.out.println("ERROR: This prey cannot be added as it does not match the diet of the predator.");
                 }
                 else {
                     System.out.print("\nWhat is the name of the organism?: ");
