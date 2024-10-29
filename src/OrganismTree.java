@@ -23,7 +23,7 @@ class OrganismTree {
         } else if (cursor.getRight() != null && cursor.getRight().getName().equals(name)) {
             cursor = cursor.getRight();
         } else {
-            throw new IllegalArgumentException("Cursor could not move to the specified organism.");
+            throw new IllegalArgumentException("ERROR: This prey does not exist for this predator");
         }
     }
 

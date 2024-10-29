@@ -35,29 +35,44 @@ public class FoodPyramid {
         String option = input.nextLine().toUpperCase();
         while (!(option.equals("Q"))){
             if (option.equals("PC")){
-                System.out.print("\nWhat is the name of the organism?: ");
-                String plant = input.nextLine();
-                try {
-                    tree.addPlantChild(plant);
-                    System.out.println("\n" + plant + " has successfully been added as prey for the "  + tree.getCursor().getName());
+                if (tree.getCursor().getRight() != null){
+                    System.out.println("ERROR: There is no more room for more prey for this predator.");
                 }
-                catch (Exception e) {
-                    System.out.println(e.getMessage());
+                else if (!(tree.getCursor().isHerbivore())){
+                    System.out.println("ERROR: This prey cannot be added as it does not match the diet of the predator.");
+                }
+                else {
+                    System.out.print("\nWhat is the name of the organism?: ");
+                    String plant = input.nextLine();
+                    try {
+                        tree.addPlantChild(plant);
+                        System.out.println("\n" + plant + " has successfully been added as prey for the " + tree.getCursor().getName());
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
                 }
             }
             if (option.equals("AC")){
-                System.out.print("\nWhat is the name of the organism?: ");
-                String animal = input.nextLine();
-                System.out.print("Is the organism an herbivore / a carnivore / an omnivore? (H / C / O): ");
-                diet = input.nextLine().toUpperCase();
-                isHerbivore = diet.equals("H") || diet.equals("O");
-                isCarnivore = diet.equals("C") || diet.equals("O");
-                try {
-                    tree.addAnimalChild(animal, isHerbivore, isCarnivore);
-                    System.out.println("\nA(n) " + animal + " has successfully been added as prey for the "  + tree.getCursor().getName());
+                if (tree.getCursor().getRight() != null){
+                    System.out.println("ERROR: There is no more room for more prey for this predator.");
                 }
-                catch (Exception e) {
-                    System.out.println(e.getMessage());
+                else if (tree.getCursor().isPlant()){
+                    System.out.println("ERROR: This prey cannot be added as it does not match the diet of the predator.");
+                }
+                else{
+                    System.out.print("\nWhat is the name of the organism?: ");
+                    String animal = input.nextLine();
+                    System.out.print("Is the organism an herbivore / a carnivore / an omnivore? (H / C / O): ");
+                    diet = input.nextLine().toUpperCase();
+                    isHerbivore = diet.equals("H") || diet.equals("O");
+                    isCarnivore = diet.equals("C") || diet.equals("O");
+                    try {
+                        tree.addAnimalChild(animal, isHerbivore, isCarnivore);
+                        System.out.println("\nA(n) " + animal + " has successfully been added as prey for the "  + tree.getCursor().getName());
+                    }
+                    catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
                 }
             }
             if (option.equals("RC")){
