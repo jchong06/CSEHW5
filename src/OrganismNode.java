@@ -58,16 +58,16 @@ public class OrganismNode {
 
     public void addPrey(OrganismNode preyNode) throws PositionNotAvailableException, IsPlantException, DietMismatchException {
         if (this.isPlant()) {
-            throw new IsPlantException("Plants do not have prey.");
+            throw new IsPlantException("ERROR: The cursor is at a plant node. Plants cannot be predators");
         }
         if (this.isHerbivore() && !this.isCarnivore()){
             if (!preyNode.isPlant()){
-                throw new DietMismatchException("Herbivores only eat plants.");
+                throw new DietMismatchException("ERROR: This prey cannot be added as it does not match the diet of the predator");
             }
         }
         if (this.isCarnivore() && !this.isHerbivore()) {
             if (preyNode.isPlant()) {
-                throw new DietMismatchException("Carnivores only eat meat.");
+                throw new DietMismatchException("ERROR: This prey cannot be added as it does not match the diet of the predator");
             }
         }
         if (getLeft() == null) {
@@ -75,10 +75,9 @@ public class OrganismNode {
         } else if (getMiddle() == null) {
             if (!Objects.equals(left.getName(), preyNode.getName())){
                 middle = preyNode;
-                System.out.println("1");
             }
             else{
-                throw new IllegalArgumentException("Prey Already Exists");
+                throw new IllegalArgumentException("ERROR: This prey already exists for this predator");
             }
         } else if (getRight() == null) {
             if (!Objects.equals(middle.getName(), preyNode.getName())) {
@@ -86,14 +85,14 @@ public class OrganismNode {
                     right = preyNode;
                 }
                 else{
-                    throw new IllegalArgumentException("Prey Already Exists");
+                    throw new IllegalArgumentException("ERROR: This prey already exists for this predator");
                 }
             }
             else{
-                throw new IllegalArgumentException("Prey Already Exists");
+                throw new IllegalArgumentException("ERROR: This prey already exists for this predator");
             }
         } else {
-            throw new PositionNotAvailableException("No available position to add prey.");
+            throw new PositionNotAvailableException("ERROR: There is no more room for more prey for this predator");
         }
     }
 }

@@ -159,6 +159,6 @@ class OrganismTree {
                 return;
             }
         }
-        throw new IllegalArgumentException("Child not found");
+        throw new IllegalArgumentException("ERROR: This prey does not exist for this predator");
     }
 }
