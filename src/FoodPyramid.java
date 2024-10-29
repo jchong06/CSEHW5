@@ -1,65 +1,108 @@
+import java.util.Scanner;
+
 public class FoodPyramid {
-    public static void main(String[] args) {
-        OrganismNode lion = new OrganismNode("Lion", false, false, true);
-        OrganismTree tree = new OrganismTree(lion);
 
-        try {
-            tree.cursorReset();
-            tree.addAnimalChild("Zebra", true, false);
-            tree.addAnimalChild("Antelope", true, false);
-            tree.moveCursor("Zebra");
-            tree.addPlantChild("Grass");
-            tree.cursorReset();
-            tree.moveCursor("Antelope");
-            tree.addPlantChild("Fly");
-            tree.cursorReset();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+    private static OrganismTree tree;
 
-        try {
-            System.out.println("Prey of Lion:");
-            System.out.println(tree.listPrey());
-            tree.printOrganismTree();
-
-            System.out.println("\nFood Chain from Cursor (Fly):");
-            tree.moveCursor("Antelope");
-            tree.moveCursor("Fly");
-            System.out.println(tree.listFoodChain());
-            tree.cursorReset();
-
-            tree.moveCursor("Zebra");
-            System.out.println("\nPrey of Zebra:");
-            System.out.println(tree.listPrey());
-
-            System.out.println("\nFood Chain from Cursor (Zebra):");
-            System.out.println(tree.listFoodChain());
-
-            tree.moveCursor("Grass");
-            System.out.println("\nFood Chain from Cursor (Grass):");
-            System.out.println(tree.listFoodChain());
-
-        } catch (IsPlantException | IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
-
-        try {
-            tree.cursorReset();
-            System.out.println("\nAll plants in the tree:");
-            System.out.println(tree.listAllPlants());
-            System.out.println("\nAdding new prey:");
-            tree.addAnimalChild("Elephant", true, false);
-            System.out.println("Prey of Lion after adding Elephant:");
-            System.out.println(tree.listPrey());
-            System.out.println("Removing Antelope...");
-            tree.removeChild("Antelope");
-            System.out.println("Prey of Lion after removing Antelope:");
-            System.out.println(tree.listPrey());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        System.out.println("\nAll plants in the tree:");
-        System.out.println(tree.listAllPlants());
+    public FoodPyramid() {
     }
+
+    public static void main(String[] args) throws DietMismatchException, IsPlantException, PositionNotAvailableException {
+        Scanner input = new Scanner(System.in);
+        String menu = "\nMenu:\n" +
+                "\n" +
+                "(PC) - Create New Plant Child\n" +
+                "(AC) - Create New Animal Child\n" +
+                "(RC) - Remove Child\n" +
+                "(P) - Print Out Cursor’s Prey\n" +
+                "(C) - Print Out Food Chain\n" +
+                "(F) - Print Out Food Pyramid at Cursor\n" +
+                "(LP) - List All Plants Supporting Cursor\n" +
+                "(R) - Reset Cursor to Root\n" +
+                "(M) - Move Cursor to Child\n" +
+                "(Q) - Quit\n";
+        System.out.print("What is the name of the apex predator?: ");
+        String apex = input.nextLine();
+        System.out.print("Is the organism an herbivore / a carnivore / an omnivore? (H / C / O): ");
+        String diet = input.nextLine().toUpperCase();
+        boolean isHerbivore = diet.equals("H") || diet.equals("O");
+        boolean isCarnivore = diet.equals("C") || diet.equals("O");
+        OrganismNode apexPredator = new OrganismNode(apex, false, isHerbivore, isCarnivore);
+        tree = new OrganismTree(apexPredator);
+        System.out.println("\nConstructing food pyramid. . .");
+        System.out.println(menu);
+        System.out.print("Please select an option: ");
+        String option = input.nextLine().toUpperCase();
+        while (!(option.equals("Q"))){
+            if (option.equals("PC")){
+                System.out.print("\nWhat is the name of the organism?: ");
+                String plant = input.nextLine();
+                try {
+                    tree.addPlantChild(plant);
+                    System.out.println("\nA(n) " + plant.toLowerCase() + " has successfully been added as prey for the "  + apex);
+                }
+                catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (option.equals("AC")){
+                System.out.print("\nWhat is the name of the organism?: ");
+                String animal = input.nextLine();
+                System.out.print("Is the organism an herbivore / a carnivore / an omnivore? (H / C / O): ");
+                diet = input.nextLine().toUpperCase();
+                isHerbivore = diet.equals("H") || diet.equals("O");
+                isCarnivore = diet.equals("C") || diet.equals("O");
+                try {
+                    tree.addAnimalChild(animal, isHerbivore, isCarnivore);
+                    System.out.println("\nA(n) " + animal + " has successfully been added as prey for the "  + tree.getCursor().getName());
+                }
+                catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (option.equals("RC")){
+                System.out.print("\nWhat is the name of the organism to be removed?: ");
+                String animal = input.nextLine();
+
+                try {
+                    tree.removeChild(animal);
+                    System.out.println("\nA(n) " + animal + " has successfully been removed as prey for the "  + tree.getCursor().getName()+ "\n");
+                }
+                catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (option.equals("P")){
+                System.out.println(tree.listPrey());
+            }
+            if (option.equals("C")){
+                System.out.println(tree.listFoodChain());
+            }
+            if (option.equals("F")){
+                tree.printOrganismTree();
+            }
+            if (option.equals("M")){
+                System.out.print("Move to?: ");
+                String animal = input.nextLine();
+                try {
+                    tree.moveCursor(animal);
+                    System.out.println("\nCursor successfully moved to " + animal + "!");
+                }
+                catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (option.equals("LP")){
+                System.out.println(tree.listAllPlants());
+            }
+            if (option.equals("R")){
+                tree.cursorReset();
+                System.out.println("Cursor successfully reset to root!");
+            }
+
+            System.out.println(menu);
+            System.out.print("Please select an option: ");
+            option = input.nextLine().toUpperCase();
+        }
+   }
 }

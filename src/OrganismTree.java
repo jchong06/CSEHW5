@@ -11,6 +11,10 @@ class OrganismTree {
         cursor = root;
     }
 
+    public OrganismNode getCursor(){
+        return cursor;
+    }
+
     public void moveCursor(String name) throws IllegalArgumentException {
         if (cursor.getLeft() != null && cursor.getLeft().getName().equals(name)) {
             cursor = cursor.getLeft();
