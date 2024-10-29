@@ -41,6 +41,9 @@ public class FoodPyramid {
                 else if (!(tree.getCursor().isHerbivore())){
                     System.out.println("ERROR: This prey cannot be added as it does not match the diet of the predator.");
                 }
+                else if (tree.getCursor().isPlant()){
+                    System.out.println("ERROR: The cursor is at a plant node. Plants cannot be predators.");
+                }
                 else {
                     System.out.print("\nWhat is the name of the organism?: ");
                     String plant = input.nextLine();
@@ -57,9 +60,11 @@ public class FoodPyramid {
                     System.out.println("ERROR: There is no more room for more prey for this predator.");
                 }
                 else if (tree.getCursor().isPlant()){
-                    System.out.println("ERROR: This prey cannot be added as it does not match the diet of the predator.");
+                    System.out.println("ERROR: The cursor is at a plant node. Plants cannot be predators.");
                 }
-                else{
+                else if (!(tree.getCursor().isCarnivore())) {
+                    System.out.println("ERROR: This prey cannot be added as it does not match the diet of the predator.");
+                } else{
                     System.out.print("\nWhat is the name of the organism?: ");
                     String animal = input.nextLine();
                     System.out.print("Is the organism an herbivore / a carnivore / an omnivore? (H / C / O): ");
