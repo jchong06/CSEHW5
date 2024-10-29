@@ -39,7 +39,7 @@ public class FoodPyramid {
                 String plant = input.nextLine();
                 try {
                     tree.addPlantChild(plant);
-                    System.out.println("\nA(n) " + plant.toLowerCase() + " has successfully been added as prey for the "  + apex);
+                    System.out.println("\n" + plant + " has successfully been added as prey for the "  + tree.getCursor().getName());
                 }
                 catch (Exception e) {
                     System.out.println(e.getMessage());
@@ -66,7 +66,7 @@ public class FoodPyramid {
 
                 try {
                     tree.removeChild(animal);
-                    System.out.println("\nA(n) " + animal + " has successfully been removed as prey for the "  + tree.getCursor().getName()+ "\n");
+                    System.out.println("\nA(n) " + animal + " has been successfully removed as prey for the "  + tree.getCursor().getName()+ "\n");
                 }
                 catch (Exception e) {
                     System.out.println(e.getMessage());

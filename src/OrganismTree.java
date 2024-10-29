@@ -29,17 +29,20 @@ class OrganismTree {
 
     public String listPrey() throws IsPlantException {
         if (cursor.isPlant()) {
-            throw new IsPlantException("Plants do not have prey.");
+            throw new IsPlantException("ERROR: The cursor is at a plant node. Plants cannot be predators");
         }
         String result = cursor.getName() + " -> ";
         if (cursor.getLeft() != null) {
-            result += cursor.getLeft().getName() + " ";
+            result += cursor.getLeft().getName() + ", ";
         }
         if (cursor.getMiddle() != null) {
-            result += cursor.getMiddle().getName() + " ";
+            result += cursor.getMiddle().getName() + ", ";
         }
         if (cursor.getRight() != null) {
-            result += cursor.getRight().getName() + " ";
+            result += cursor.getRight().getName();
+        }
+        if (result.endsWith(", ")){
+            result = result.substring(0,result.length() - 2);
         }
         return result.trim();
     }
@@ -91,6 +94,9 @@ class OrganismTree {
 
     public String listAllPlants(){
         String result = listAllPlantsHelper(cursor);
+        if (result.endsWith(", ")){
+            result = result.substring(0,result.length() - 2);
+        }
         return result;
     }
 
@@ -100,7 +106,7 @@ class OrganismTree {
             return "";
         }
         if (node.isPlant()){
-            return node.getName() + " ";
+            return node.getName() + ", ";
         }
 
         result += listAllPlantsHelper(node.getLeft());
